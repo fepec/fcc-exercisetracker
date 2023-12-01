@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const app = express()
 const cors = require('cors')
 
@@ -29,7 +30,9 @@ app.use(express.urlencoded({ extended: false }))
 
 
 
-// Set up routes
+// Set up views and routes 
+app.set("views", path.join(__dirname, "views") )
+
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 
