@@ -20,15 +20,18 @@ async function main() {
   await mongoose.connect(mongoDB)
 }
 
+
 // Set up global middleware
 app.use(cors())
 app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
+
+
 // Set up routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 
 
