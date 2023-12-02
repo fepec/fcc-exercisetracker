@@ -22,7 +22,12 @@ async function main() {
 }
 
 
-// Set up global middleware
+////  Set up global middleware ////
+// Set up request logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${req.ip} : ${req.body}`)
+  next()
+})
 app.use(cors())
 app.use(express.static('public'))
 app.use(express.json());
