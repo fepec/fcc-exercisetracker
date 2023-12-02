@@ -16,6 +16,6 @@ router.get("/", user_controller.user_list)
 router.post("/:id/exercise", exercise_controller.exercise_create_post)
 
 // GET request to list all user exercise sessions
-router.get("/:id/logs", exercise_controller.exercise_list)
+router.get("/:id/logs", user_controller.user_detail)
 
 module.exports = router;

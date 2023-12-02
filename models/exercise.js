@@ -14,5 +14,9 @@ ExerciseSchema.virtual("url").get(function () {
     return `/exercise/${this._id}`
 })
 
+ExerciseSchema.virtual("date_formatted").get( function () {
+    return this.date.toDateString()
+})
+
 // Export model
 module.exports = mongoose.model("Exercise", ExerciseSchema)
