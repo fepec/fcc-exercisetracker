@@ -26,13 +26,19 @@ exports.user_create_post = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific User
 exports.user_detail = asyncHandler(async (req, res, next) => {
-    console.log("get user")
+    console.log("get user", req.query.from, req.query.to, req.query.limit)
     const [user, allExercisesByUser] = await Promise.all([
         User.findById(req.params.id).exec(),
-        Exercise.find({ user: req.params.id }, "description duration date").exec()
+        Exercise
+            .find({ 
+                user: req.params.id,
+                date: { $gte: req.query.from || 0, $lte: req.query.to || Number.MAX_VALUE }
+                }, 
+                "description duration date")
+            .sort( {date: 1} )
+            .limit(req.query.limit)
+            .exec()
     ])
-    console.log("found user", user.name)
-    console.log("found exercises", allExercisesByUser)
     // convert date to string in allExercisesByUser
     const exercisesWithFormattedDate = allExercisesByUser.map(exercise => {
         const exerciseObject = exercise.toObject();
