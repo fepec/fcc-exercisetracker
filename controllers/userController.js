@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler')
 
 // Display list of all users
 exports.user_list = asyncHandler(async (req, res, next) => {
-    const allUsers = await User.find().sort({ name: 1 }).exec()
+    const allUsers = await User.find({}, "name _id").sort({ name: 1 }).exec()
     res.send(allUsers)
 });
 
