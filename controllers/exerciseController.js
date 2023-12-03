@@ -22,14 +22,11 @@ exports.exercise_create_post = asyncHandler(async (req, res, next) => {
     ]);
 
     res.send({
-        username: user.username,
-        count: 1,
         _id: user._id,
-        log: [{
-            description: savedExercise.description,
-            duration: savedExercise.duration,
-            date: savedExercise.date_formatted,
-        }]
+        username: user.username,
+        duration: savedExercise.duration,
+        date: savedExercise.date_formatted,
+        description: savedExercise.description,    
     })
 
 });
