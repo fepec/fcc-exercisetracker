@@ -1,11 +1,12 @@
 const User = require('../models/user')
 const Exercise = require('../models/exercise')
 
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+const exercise = require('../models/exercise');
 
 // Display list of all users
 exports.user_list = asyncHandler(async (req, res, next) => {
-    const allUsers = await User.find({}, "name _id").sort({ username: 1 }).exec()
+    const allUsers = await User.find({}, "username _id").sort({ username: 1 }).exec()
     res.send(allUsers)
 });
 
@@ -27,13 +28,21 @@ exports.user_create_post = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific User
 exports.user_detail = asyncHandler(async (req, res, next) => {
     console.log("get user", req.query.from, req.query.to, req.query.limit)
+    // conditionally build Exercise.find Query
+    let exerciseQuery = {
+        user: req.params.id
+    }
+    if(req.query.from) {
+        exerciseQuery.date.$gte = req.query.from
+    }
+    if(req.query.to) {
+        exerciseQuery.date.$lte = req.query.to
+    }
+
     const [user, allExercisesByUser] = await Promise.all([
-        User.findById(req.params.id).exec(),
+        User.findById(req.params.id, "username _id").exec(),
         Exercise
-            .find({ 
-                user: req.params.id,
-                date: { $gte: req.query.from || 0, $lte: req.query.to || Number.MAX_VALUE }
-                }, 
+            .find(exerciseQuery, 
                 "description duration date")
             .sort( {date: 1} )
             .limit(req.query.limit)
