@@ -34,11 +34,11 @@ async function main() {
 // We pass the index to the ...Create functions so that, for example,
 // genre[0] will always be the Fantasy genre, regardless of the order
 // in which the elements of promise.all's argument complete.
-async function userCreate(index, name) {
-  const user = new User({ name: name });
+async function userCreate(index, username) {
+  const user = new User({ username: username });
   await user.save();
   users[index] = user;
-  console.log(`Added user: ${name}`);
+  console.log(`Added user: ${username}`);
 }
 
 async function exerciseCreate(index, description, duration, date, user) {

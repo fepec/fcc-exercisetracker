@@ -8,7 +8,7 @@ const UserSchema = new Schema({
 
 // Virtual for bookinstance's URL
 UserSchema.virtual("url").get( function() {
-    return `/user/${this._id}`
+    return `/users/${this._id}`
 })
 // Other Virtuals, Instance Methods, Static Methods, and Query Helpers go here
 
