@@ -27,24 +27,28 @@ exports.user_create_post = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific User
 exports.user_detail = asyncHandler(async (req, res, next) => {
-    console.log("get user", req.query.from, req.query.to, req.query.limit)
     // conditionally build Exercise.find Query
     let exerciseQuery = {
         user: req.params.id
     }
-    if(req.query.from) {
+
+    // Initialize the date object if either 'from' or 'to' is present
+    if (req.query.from || req.query.to) {
+        exerciseQuery.date = {};
+    }
+    if (req.query.from) {
         exerciseQuery.date.$gte = req.query.from
     }
-    if(req.query.to) {
+    if (req.query.to) {
         exerciseQuery.date.$lte = req.query.to
     }
 
     const [user, allExercisesByUser] = await Promise.all([
         User.findById(req.params.id, "username _id").exec(),
         Exercise
-            .find(exerciseQuery, 
+            .find(exerciseQuery,
                 "description duration date")
-            .sort( {date: 1} )
+            .sort({ date: 1 })
             .limit(req.query.limit)
             .exec()
     ])
