@@ -13,7 +13,7 @@ router.post("/", user_controller.user_create_post)
 router.get("/", user_controller.user_list)
 
 // POST request to create new exercise session
-router.post("/:id/exercise", exercise_controller.exercise_create_post)
+router.post("/:id/exercises", exercise_controller.exercise_create_post)
 
 // GET request to list all user exercise sessions
 router.get("/:id/logs", user_controller.user_detail)
